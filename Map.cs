@@ -16,7 +16,7 @@ namespace SnakeCSharpConsole
         public static void RenderFrame()
         {
             Console.Clear();
-
+            Console.CursorVisible = false;
             for (int i = 0; i < MapWidth; i++)
             {
                 Console.Write("#");
@@ -37,7 +37,7 @@ namespace SnakeCSharpConsole
             {
                 Console.Write("#");
             }
-            Program.ScoreUpdate(Program.scoreCounter);
+            
         }
         public static void ClearFrame()
         {
@@ -45,13 +45,15 @@ namespace SnakeCSharpConsole
             {
                 for(int k = 1; k< MapWidth-2; k++)
                 {
+                    
                     Console.SetCursorPosition(k, i);
-                    Console.Write("\0");
+                    Console.Write(" ");
                 }
             }
         }
         public static void Draw(int x, int y)
         {
+            Console.CursorVisible = false;
             Console.SetCursorPosition(x, y);
             Console.Write("*");
         }

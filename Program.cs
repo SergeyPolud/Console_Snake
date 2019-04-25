@@ -12,9 +12,10 @@ namespace SnakeCSharpConsole
         internal static Map map = new Map(100,25);
         internal static int scoreCounter =0;
         internal static FoodGenerator item = new FoodGenerator();
-        internal static int interval = 100;
+        internal static int interval = 10000;
         internal static bool IsOver = false;
         internal static int tmp = 0;
+        internal static Timer timer1 = new Timer(Async, null, Timeout.Infinite, interval);
         internal enum Directions
         {
             DOWN,
@@ -90,7 +91,7 @@ namespace SnakeCSharpConsole
             MainObject head = new MainObject(x*2, y*2);
             if (head.x == item.x && head.y == item.y)
             {
-
+                timer1.Change(Timeout.Infinite, Timeout.Infinite);
                 Stars.Add(new MainObject(Stars[Stars.Count - 1].x - 2, Stars[Stars.Count - 1].y - 2));
                 scoreCounter += 100;
                 item.RandomGenerate();
@@ -102,56 +103,40 @@ namespace SnakeCSharpConsole
                 {
                     Map.Draw(Stars[i].x, Stars[i].y);
                 }
+                timer1.Change(0, interval);
             }
-            else if (head.x != 0 && head.y != 0)
+            else
             {
+                timer1.Change(Timeout.Infinite, Timeout.Infinite);
                 Stars.Insert(0, head);
                 Stars.RemoveAt(Stars.Count - 1);
                 Map.ClearFrame();
+               
                 Map.Draw(item.x, item.y);
                 for (int i = 0; i < Stars.Count; i++)
                 {
                     Map.Draw(Stars[i].x, Stars[i].y);
                 }
+                timer1.Change(0, interval);
             }
-            else
-            {
-                tmp = 3000;
-                IsOver = true;
-                Console.SetCursorPosition(1, Map.MapHeight + 5);
-                Console.Write("GAME OVER");
-                Thread.Sleep(1000);
-                Console.Clear();
-                Stars.Clear();
-                Init(Stars);
-                dir = 0;
-                dir = GetCurrentDirection();
-                tmp = interval;
-                IsOver = false;
-               
-            }            
+            
+                   
         }
-        public static void TimerControl(Timer timer1)
-        {
-            timer1.Change(0, tmp);
-        }
+       
         static void Main(string[] args)
         {
             Console.Clear();
-            Console.CursorVisible = false;
+            
             Init(Stars);
             dir = GetCurrentDirection();
-            Timer timer1 = new Timer(Async, 0, 0, interval);
+            timer1.Change(0, 1000);
+          
             do
             {
                 if(!IsOver)
                 {
-                    Console.CursorVisible = false;
+                    
                     dir = GetCurrentDirection();
-                }
-                else
-                {
-                    TimerControl(timer1);
                 }
             } while (true);
         }
