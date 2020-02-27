@@ -9,7 +9,7 @@ namespace SnakeCSharpConsole
         internal static TimerCallback callback = new TimerCallback(Async);
         internal static List<MainObject> Stars = new List<MainObject>();
         internal static Directions dir;
-        internal static Map map = new Map(100,25);
+        internal static Map map = new Map(50,25);
         internal static int scoreCounter =0;
         internal static FoodGenerator item = new FoodGenerator();
         internal static int interval = 10000;
